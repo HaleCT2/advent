@@ -10,9 +10,9 @@ if not os.path.isfile(lists):
     print("List don't exist.")
 else:
     with open(lists) as f:
-        for l in f:
-            listOne.append(l.split()[0])
-            listTwo.append(l.split()[1])
+        for line in f:
+            listOne.append(line.split()[0])
+            listTwo.append(line.split()[1])
 
 listOne.sort()
 listTwo.sort()
