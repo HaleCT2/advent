@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -16,17 +17,22 @@ func timer(name string) func() {
 	}
 }
 
+func padding(n float64) float64 {
+	return math.Pow10(int(math.Log10(n) + 1))
+}
+
 func evaluate(p float64, n []float64) bool {
-	// fmt.Println(p, n)
 	if len(n) == 2 {
-		if (p/n[1]) == n[0] || p-n[1] == n[0] {
+		// if (p/n[1]) == n[0] || p-n[1] == n[0] {
+		if (p/n[1]) == n[0] || p-n[1] == n[0] || (p-n[1])/padding(n[1]) == n[0] {
 			return true
 		} else {
 			return false
 		}
 	}
 
-	return evaluate(p/n[len(n)-1], n[:len(n)-1]) || evaluate(p-n[len(n)-1], n[:len(n)-1])
+	// return evaluate(p/n[len(n)-1], n[:len(n)-1]) || evaluate(p-n[len(n)-1], n[:len(n)-1])
+	return evaluate(p/n[len(n)-1], n[:len(n)-1]) || evaluate(p-n[len(n)-1], n[:len(n)-1]) || evaluate((p-n[len(n)-1])/padding(n[len(n)-1]), n[:len(n)-1])
 }
 
 func main() {
@@ -60,7 +66,6 @@ func main() {
 	sum := 0.0
 	for key, value := range input {
 		if evaluate(key, value) {
-			fmt.Println(key, "GOOD")
 			sum = sum + key
 		}
 	}
